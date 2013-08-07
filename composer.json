@@ -1,7 +1,10 @@
 {
+<<<<<<< HEAD
   "name": "Intellimage/Icg",
   "description": "Intellimage Commandline Tool",
   "license": "MIT",
+=======
+>>>>>>> cd642f1f7486fe06b6eceaa0d80d606f972a982f
   "require": {
     "zendframework/zend-code": "2.3.*@dev",
     "zendframework/zend-eventmanager": "2.3.*@dev",
