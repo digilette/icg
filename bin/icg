@@ -1,0 +1,9 @@
+#!/usr/bin/php
+<?php
+
+require 'vendor/autoload.php';
+echo "this is the test of icg package\n";
+$c = new Intellimage\Icg\Helper\Controller();
+var_dump($c);
+
+
