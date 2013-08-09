@@ -1,9 +1,18 @@
 #!/usr/bin/php
 <?php
+use Intellimage\Icg\Helper;
+
 
 require 'vendor/autoload.php';
 echo "this is the test of icg package\n";
-$c = new Intellimage\Icg\Helper\Controller();
+$c = new Helper\Controller();
+
 var_dump($c);
+
+$dir = Helper\Config::getBaseDir();
+var_dump($dir);
+
+var_dump(Helper\Config::getInstance());
+
 
 
