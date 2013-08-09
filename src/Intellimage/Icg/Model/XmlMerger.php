@@ -19,6 +19,11 @@ class XmlMerger {
     private $_target;
     
     /**
+     * @var string default indentation
+     */
+    private $_indentation = "    ";
+    
+    /**
      * Validates an load the xml file
      *
      * @return SimpleXMLElement
@@ -40,6 +45,12 @@ class XmlMerger {
         
         return $xml;
     }
+    
+    public function setIndentationSize($size)
+    {
+        $this->_indentation = str_repeat(" ", $size);
+    }
+    
     /**
      * Sets the source file to merge with
      * @param string $file
@@ -148,7 +159,7 @@ class XmlMerger {
                 if (!isset($destination->$name)) {
                     $id = uniqid("pm");
                     $childXml = $child->asXml();
-                    $this->_replaces[$id] = '    ' . $childXml . "\n" . str_repeat("    ", $indentation);
+                    $this->_replaces[$id] = $this->_indentation . $childXml . "\n" . str_repeat($this->_indentation, $indentation);
                     $destination->addChild($id);
                 } else {
                     $this->_mergeXml($destination->$name, $child, $indentation + 1);
