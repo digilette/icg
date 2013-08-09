@@ -23,7 +23,7 @@ class XmlMerger {
      *
      * @return SimpleXMLElement
      */
-    private function _loadXmlFile($file) 
+    protected function _loadXmlFile($file) 
     {
         if (!file_exists($file)) {
             throw new Exception("The file " . $file . " doesn't exists");

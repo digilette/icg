@@ -74,7 +74,42 @@ class XmlMergerTest extends \PHPUnit_Framework_TestCase
     
     public function testIdentationShouldBePreserved()
     {
+        $mockXmlMerger = $this->mockXmlMerger(array('_loadXmlFile', 'setTarget'));
+        $first = "    <something><value>the value</value></something>";
+        $second = "     <somethingelse><value>the value</value></somethingelse>";
+        $middle = "    <middle>\n</middle>";
+        $xmlstring = "<xml>\n$first\n$middle\n$second\n</xml>";
+        $sourceFilename = "somefile";
         
+        $xml = simplexml_load_string($xmlstring);
+        $mockXmlMerger->expects($this->at(0))
+            ->method("_loadXmlFile")
+            ->will($this->returnValue($xml));
+
+        $mockXmlMerger->expects($this->once())
+            ->method("setTarget")
+            ->with($this->equalTo($sourceFilename))
+            ->will($this->returnValue(null));
+
+        $mockXmlMerger->setSource($sourceFilename);
+
+        $mergeValues = "<merged>it works</merged>";
+        $xmlstring2 = "<xml><middle>\n$mergeValues\n</middle></xml>";
+        $sourceMergeFilename = "other_file";
+        
+        $xml2 = simplexml_load_string($xmlstring2);
+        $mockXmlMerger->expects($this->at(0))
+            ->method("_loadXmlFile")
+            ->will($this->returnValue($xml2));
+            
+        $mockXmlMerger->mergeByFile($sourceMergeFilename);
+
+        $resultXml = $mockXmlMerger->asXml();
+        
+        $regex = "#\\n" . preg_quote($first) . "#";
+        $this->assertRegExp($regex, $resultXml, "should have original indentation");
+        $regex = "#\\n" . preg_quote($second) . "#";
+        $this->assertRegExp($regex, $resultXml, "should have original indentation");
     }
     
     public function testMergedNodesShouldExist()
