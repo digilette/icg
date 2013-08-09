@@ -1,8 +1,8 @@
 <?php
 namespace Intellimage\Icg\Model;
 
-class XmlMerger {
-
+class XmlMerger
+{
     /**
      * @var string source xml file
      */
