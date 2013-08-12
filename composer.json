@@ -1,23 +1,23 @@
 {
-  "name": "intellimage/icg",
-  "description": "Intellimage Commandline Tool",
-  "license": "MIT",
-  "require": {
-    "zendframework/zend-code": "2.3.*@dev",
-    "zendframework/zend-eventmanager": "2.3.*@dev",
-    "zendframework/zend-stdlib": "2.3.*@dev"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "3.7.*"
-  },
-  "config": {
-    "bin-dir": "src"
-  },
-  "autoload": {
-    "psr-0": {
-      "Intellimage\\Icg": "src",
-      "Test\\Intellimage\\Icg": "tests"
-    }
-  },
-  "bin": ["bin/icg"]
+    "name": "intellimage/icg",
+    "description": "Intellimage Commandline Tool",
+    "license": "MIT",
+    "require": {
+        "zendframework/zend-code": "2.3.*@dev",
+        "zendframework/zend-eventmanager": "2.3.*@dev",
+        "zendframework/zend-stdlib": "2.3.*@dev"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    },
+    "config": {
+        "bin-dir": "src"
+    },
+    "autoload": {
+        "psr-0": {
+            "Intellimage\\Icg": "src",
+            "Test\\Intellimage\\Icg": "tests"
+        }
+    },
+    "bin": ["bin/icg"]
 }

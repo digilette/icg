@@ -14,31 +14,31 @@ class XmlMergerTest extends \PHPUnit_Framework_TestCase
     }
     
     public function testWillSaveFileToProvidedName()
-    {
-        
+    {   
         $filename = 'somemock_filename';
+        //mock
         $mockXmlMerger = $this->mockXmlMerger(array('_save', '_getCurrentXml'));
         $mockXmlMerger->expects($this->once())
             ->method("_save")
             ->with($this->equalTo($filename))
             ->will($this->returnValue(1));
-        
         $mockXmlMerger->expects($this->once())
             ->method("_getCurrentXml")
             ->will($this->returnValue(null));
-        
+        //test
         $mockXmlMerger->save($filename);
 
+        //mock
         $mockXmlMerger = $this->mockXmlMerger(array('_save', '_getCurrentXml'));
-        $mockXmlMerger->setTarget($filename);
         $mockXmlMerger->expects($this->once())
             ->method("_save")
             ->with($this->equalTo($filename))
             ->will($this->returnValue(1));
-        
         $mockXmlMerger->expects($this->once())
             ->method("_getCurrentXml")
             ->will($this->returnValue(null));
+        //test
+        $mockXmlMerger->setTarget($filename);
         $mockXmlMerger->save();
     }
     
@@ -47,38 +47,39 @@ class XmlMergerTest extends \PHPUnit_Framework_TestCase
      */
     public function testWillThrowExceptionIfNoFileProvided()
     {
+        //mock
         $mockXmlMerger = $this->mockXmlMerger(array('_getCurrentXml'));
         $mockXmlMerger->expects($this->once())
             ->method("_getCurrentXml")
             ->will($this->returnValue(""));
-        
+        //test
         $mockXmlMerger->save();
     }
     
     private function _mergeTwoFiles($xmlstring, $xmlstring2, $indentationSize = 4)
     {
-        $mockXmlMerger = $this->mockXmlMerger(array('_loadXmlFile', 'setTarget'));
-        $mockXmlMerger->setIndentationSize($indentationSize);
         $sourceFilename = "somefile";
+        $sourceMergeFilename = "other_file";
+        //mock
+        $mockXmlMerger = $this->mockXmlMerger(array('_loadXmlFile', 'setTarget'));
         $xml = simplexml_load_string($xmlstring);
         $mockXmlMerger->expects($this->at(0))
             ->method("_loadXmlFile")
             ->will($this->returnValue($xml));
-
         $mockXmlMerger->expects($this->once())
             ->method("setTarget")
             ->with($this->equalTo($sourceFilename))
             ->will($this->returnValue(null));
-
+        //test
+        $mockXmlMerger->setIndentationSize($indentationSize);
         $mockXmlMerger->setSource($sourceFilename);
 
-        $sourceMergeFilename = "other_file";
-        
+        //mock
         $xml2 = simplexml_load_string($xmlstring2);
         $mockXmlMerger->expects($this->at(0))
             ->method("_loadXmlFile")
             ->will($this->returnValue($xml2));
-            
+        //test
         $mockXmlMerger->mergeByFile($sourceMergeFilename);
         return $mockXmlMerger;
     }

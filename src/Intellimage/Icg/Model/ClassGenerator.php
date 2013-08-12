@@ -1,6 +1,9 @@
 <?php
 namespace Intellimage\Icg\Model;
 
+use \Zend\Code\Generator;
+use \Zend\Code\Reflection;
+
 class ClassGenerator
 {
     private $_classReflectionGeneratorFactory = null;
@@ -20,31 +23,33 @@ class ClassGenerator
     public function __construct()
     {
         $this->setClassReflectionGeneratorFactory(function($classname){
-            return Zend_CodeGenerator_Php_Class::fromReflection(new Zend_Reflection_Class($classname));
+            return Generator\ClassGenerator::fromReflection(
+                new Reflection\ClassReflection($classname)
+            );
         });
         
         $this->setFileGeneratorFactory(function($arguments){
-            return new Zend_CodeGenerator_Php_File($arguments);
+            return new Generator\FileGenerator($arguments);
         });
         
         $this->setClassGeneratorFactory(function($arguments){
-            return new Zend_CodeGenerator_Php_Class($arguments);
+            return new Generator\ClassGenerator($arguments);
         });
         
         $this->setDocBlockGeneratorFactory(function($arguments){
-            return new Zend_CodeGenerator_Php_Docblock($arguments);
+            return new Generator\DocblockGenerator($arguments);
         });
         
         $this->setMethodGeneratorFactory(function($arguments){
-            return new Zend_CodeGenerator_Php_Method($arguments);
+            return new Generator\MethodGenerator($arguments);
         });
         
         $this->setParameterGeneratorFactory(function($arguments){
-            return new Zend_CodeGenerator_Php_Parameter($arguments);
+            return new Generator\ParameterGenerator($arguments);
         });
         
         $this->setPropertyGeneratorFactory(function($arguments){
-            return new Zend_CodeGenerator_Php_Property($arguments);
+            return new Generator\PropertyGenerator($arguments);
         });
     }
     
@@ -64,7 +69,7 @@ class ClassGenerator
         return $this;
     }
     
-    public function getFileGenerator($arguments)
+    public function getFileGenerator($arguments = null)
     {
         return call_user_func_array($this->_fileGeneratorFactory, array($arguments));
     }
@@ -75,7 +80,7 @@ class ClassGenerator
         return $this;
     }
     
-    public function getClassGenerator($arguments)
+    public function getClassGenerator($arguments = null)
     {
         return call_user_func_array($this->_classGeneratorFactory, array($arguments));
     }
@@ -86,7 +91,7 @@ class ClassGenerator
         return $this;
     }
     
-    public function getDocBlockGenerator($arguments)
+    public function getDocBlockGenerator($arguments = null)
     {
         return call_user_func_array($this->_docBlockGeneratorFactory, array($arguments));
     }
@@ -97,7 +102,7 @@ class ClassGenerator
         return $this;
     }
     
-    public function getMethodGenerator($arguments)
+    public function getMethodGenerator($arguments = null)
     {
         return call_user_func_array($this->_methodGeneratorFactory, array($arguments));
     }
@@ -108,7 +113,7 @@ class ClassGenerator
         return $this;
     }
     
-    public function getParameterGenerator($arguments)
+    public function getParameterGenerator($arguments = null)
     {
         return call_user_func_array($this->_parameterGeneratorFactory, array($arguments));
     }
@@ -119,7 +124,7 @@ class ClassGenerator
         return $this;
     }
     
-    public function getPropertyGenerator($arguments)
+    public function getPropertyGenerator($arguments = null)
     {
         return call_user_func_array($this->_propertyGeneratorFactory, array($arguments));
     }
